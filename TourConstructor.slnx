@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TourConstructor.Api/TourConstructor.Api.csproj" />
+    <Project Path="src/TourConstructor.Application/TourConstructor.Application.csproj" />
+    <Project Path="src/TourConstructor.Domain/TourConstructor.Domain.csproj" />
+    <Project Path="src/TourConstructor.Infrastructure/TourConstructor.Infrastructure.csproj" />
+  </Folder>
+</Solution>
