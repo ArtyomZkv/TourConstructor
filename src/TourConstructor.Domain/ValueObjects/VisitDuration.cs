@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TourConstructor.Domain.ValueObjects
+﻿namespace TourConstructor.Domain.ValueObjects
 {
     public record VisitDuration
     {
