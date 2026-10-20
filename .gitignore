@@ -9,6 +9,7 @@
 # osrm
 osrm/
 .pbf
+notes/
 
 # User-specific files
 *.rsuser
