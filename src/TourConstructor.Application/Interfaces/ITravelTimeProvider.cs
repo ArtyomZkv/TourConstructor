@@ -10,8 +10,10 @@ namespace TourConstructor.Application.Interfaces
         /// <summary>
         /// Рассчитывает время, за которое нужно добраться из i в j. i - откуда, j - куда.
         /// </summary>
+        /// <param name="points">Точки, между которыми считается время.</param>
+        /// <param name="ct">Токен отмены.</param>
         /// <returns>Возвращает матрицу времени NxN, где N - points.Count, [i,j] - минуты из points[i] до points[j].</returns>
-        Task<int[,]> GetMinutesMatrixAsync(IReadOnlyList<Coordinates> points);
+        Task<int[,]> GetMinutesMatrixAsync(IReadOnlyList<Coordinates> points, CancellationToken ct);
 
         /// <summary>
         /// Метод вызывается для расчёта максимально возможного расстояния по прямой по верхней границе скорости.
