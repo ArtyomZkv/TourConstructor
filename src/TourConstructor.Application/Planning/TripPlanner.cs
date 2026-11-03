@@ -1,5 +1,6 @@
 ﻿using TourConstructor.Application.Interfaces;
 using TourConstructor.Application.Models;
+using TourConstructor.Domain.Entities;
 
 namespace TourConstructor.Application.Planning
 {
@@ -25,8 +26,17 @@ namespace TourConstructor.Application.Planning
             if (places.Count == 0)
                 return new TripPlan([], NoRouteReason.NoPlacesInRadius, 0);
 
+            var placesAfterDining = ExcludeDiningIfNotIncluded(places, criteria);
+            if (placesAfterDining.Count == 0)
+                return new TripPlan([], NoRouteReason.OnlyDiningNearby, places.Count);
+            
+
             throw new NotImplementedException();
         }
 
+        private List<Place> ExcludeDiningIfNotIncluded(IReadOnlyList<Place> allPlaces, TripCriteria criteria)
+            => allPlaces
+                .Where(place => criteria.IncludeDining || place is not Dining)
+                .ToList();
     }
 }
