@@ -33,6 +33,10 @@ namespace TourConstructor.Application.Planning
             var placesAfterAllowAge = placesAfterDining.Where(place => place.AllowAge <= criteria.YoungestAge || criteria.YoungestAge is null || place.AllowAge is null).ToList();
             if (placesAfterAllowAge.Count == 0)
                 return new TripPlan([], NoRouteReason.AgeRestricted, placesAfterDining.Count);
+        
+            var placesAfterGroupSize = placesAfterAllowAge.Where(place => place is not Guide guide || guide.GroupSize >= criteria.PeopleCount).ToList();
+            if (placesAfterGroupSize.Count == 0)
+                return new TripPlan([], NoRouteReason.GroupTooLarge, placesAfterAllowAge.Count);
 
             throw new NotImplementedException();
         }
