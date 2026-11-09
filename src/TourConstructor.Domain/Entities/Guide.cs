@@ -33,5 +33,20 @@ namespace TourConstructor.Domain.Entities
             Price = price;
             PriceKind = priceKind;
         }
+
+        public decimal GetCostFor(int peopleCount)
+        {
+            if (peopleCount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(peopleCount), "Количество людей должно быть больше 0");
+            if (peopleCount > GroupSize)
+                throw new ArgumentOutOfRangeException(nameof(peopleCount), $"Количество людей должно быть не больше {GroupSize}");
+
+            return PriceKind switch
+            {
+                PriceKind.PerPerson => peopleCount * Price,
+                PriceKind.PerGroup => Price,
+                _ => throw new InvalidOperationException($"Неизвестный вид стоимости: {PriceKind}")
+            };
+        }
     }
 }

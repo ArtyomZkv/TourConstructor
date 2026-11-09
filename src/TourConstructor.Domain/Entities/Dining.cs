@@ -18,5 +18,13 @@ namespace TourConstructor.Domain.Entities
             AverageCheck = averageCheck;
             VisitDuration = visitDuration ?? throw new ArgumentNullException(nameof(visitDuration), "Необходимо задать длительность посещения");
         }
+
+        public decimal GetCostFor(int peopleCount)
+        {
+            if (peopleCount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(peopleCount), "Количество людей должно быть больше 0");
+
+            return peopleCount * AverageCheck;
+        }
     }
 }
