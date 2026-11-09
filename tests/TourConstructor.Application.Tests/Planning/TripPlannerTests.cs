@@ -3,6 +3,7 @@ using TourConstructor.Application.Planning;
 using TourConstructor.Application.Models;
 using TourConstructor.Domain.ValueObjects;
 using TourConstructor.Domain.Entities;
+using TourConstructor.Domain.Enums;
 
 namespace TourConstructor.Application.Tests.Planning
 {
@@ -90,10 +91,10 @@ namespace TourConstructor.Application.Tests.Planning
             //Arrange
             FakePlaceRepository repositoryWithGuidePlaces = new();
             var placeWithGroupSize = new Guide("Гид по Кремлю", null, null, null, 14, 
-                new Coordinates(56.33, 44.01), "русский", 4, new VisitDuration(10, 30, 60), 1000, [new Tag("гид")]);
+                new Coordinates(56.33, 44.01), "русский", 4, new VisitDuration(10, 30, 60), 1000, PriceKind.PerPerson, [new Tag("гид")]);
 
             var placeWithGroupSize2 = new Guide("Гид по Кремлю", null, null, null, 14, 
-                new Coordinates(56.33, 44.01), "русский", 4, new VisitDuration(10, 30, 60), 1000, [new Tag("гид")]);
+                new Coordinates(56.33, 44.01), "русский", 4, new VisitDuration(10, 30, 60), 1000, PriceKind.PerPerson, [new Tag("гид")]);
 
             var placeWithDining = new Dining("Пельменная", "г. Нижний Новгород, Ул. Тестовая, 18",
                 null, null, 14, new Coordinates(56.33, 44.01), 2000, new VisitDuration(10, 30, 60), [new Tag("Пельмени")]);
