@@ -115,5 +115,36 @@ namespace TourConstructor.Application.Tests.Planning
             Assert.Equal(NoRouteReason.GroupTooLarge, plan.Reason);
             Assert.Equal(2, plan.PlacesBeforeFailure);
         }
+        
+        [Fact]
+        public async Task PlanAsync_WhenCriteriaIsOverBudget_ReturnsOverBudget()
+        {
+            //Arrange
+            FakePlaceRepository repositoryWithIVisitablePlaces = new();
+            var placeWithGroupSize = new Guide("Гид по Кремлю", null, null, null, 14, 
+                new Coordinates(56.33, 44.01), "русский", 4, new VisitDuration(10, 30, 60), 1000, PriceKind.PerPerson, [new Tag("гид")]);
+
+            var placeWithGroupSize2 = new Guide("Гид по Кремлю", null, null, null, 14, 
+                new Coordinates(56.33, 44.01), "русский", 2, new VisitDuration(10, 30, 60), 1000, PriceKind.PerPerson, [new Tag("гид")]);
+
+            var placeWithDining = new Dining("Пельменная", "г. Нижний Новгород, Ул. Тестовая, 18",
+                null, null, 14, new Coordinates(56.33, 44.01), 2000, new VisitDuration(10, 30, 60), [new Tag("Пельмени")]);
+
+            repositoryWithIVisitablePlaces.Places.AddRange(placeWithGroupSize, placeWithGroupSize2, placeWithDining);
+
+            var planner = new TripPlanner(repositoryWithIVisitablePlaces, new FakeTravelTimeProvider());
+
+            var departureTime = new DateTimeOffset(2026, 11, 7, 9, 0, 0, TimeSpan.FromHours(3));
+
+            var criteria = new TripCriteria(new Coordinates(56.32, 44.0), departureTime, departureTime.AddHours(10), ["музей"], 3, null, 1, true);
+
+            //Act
+            var plan = await planner.PlanAsync(criteria, CancellationToken.None);
+
+            //Assert
+            Assert.Empty(plan.Variants);
+            Assert.Equal(NoRouteReason.OverBudget, plan.Reason);
+            Assert.Equal(2, plan.PlacesBeforeFailure);
+        }
     }
 }

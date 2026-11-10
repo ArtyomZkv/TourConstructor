@@ -1,6 +1,7 @@
 ﻿using TourConstructor.Application.Interfaces;
 using TourConstructor.Application.Models;
 using TourConstructor.Domain.Entities;
+using TourConstructor.Domain.Interfaces;
 
 namespace TourConstructor.Application.Planning
 {
@@ -37,6 +38,10 @@ namespace TourConstructor.Application.Planning
             var placesAfterGroupSize = placesAfterAllowAge.Where(place => place is not Guide guide || guide.GroupSize >= criteria.PeopleCount).ToList();
             if (placesAfterGroupSize.Count == 0)
                 return new TripPlan([], NoRouteReason.GroupTooLarge, placesAfterAllowAge.Count);
+            
+            var placesAfterOverBudget = placesAfterGroupSize.Where(place => place is not IVisitable visitable || criteria.Budget is null || visitable.GetCostFor(criteria.PeopleCount) <= criteria.Budget).ToList();
+            if (placesAfterOverBudget.Count == 0)
+                return new TripPlan([], NoRouteReason.OverBudget, placesAfterGroupSize.Count);
 
             throw new NotImplementedException();
         }
